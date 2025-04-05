@@ -9,6 +9,20 @@ let humanScore = 0;
 
 let computerScore = 0;
 
+const rock = document.querySelector("#rock");
+
+const paper = document.querySelector("#paper");
+
+const scissors = document.querySelector("#scissors");
+
+let lineBreak = document.createElement("br");
+
+const div = document.createElement("div");
+div.style.backgroundColor = "red";
+div.style.border = "3px solid black";
+document.body.appendChild(div);
+
+
 // get computers choice for game
 function getComputerChoice() {
   let x = Math.random()
@@ -23,46 +37,65 @@ function getComputerChoice() {
 }
 
 // get users choice for game
-function getHumanChoice() {
-    return prompt("Enter rock, paper, or scissors: ");
-}
+rock.addEventListener("click", () => {
+    playRound("rock", getComputerChoice())
+    playGame();
+});
+
+paper.addEventListener("click", () => {
+    playRound("paper", getComputerChoice())
+    playGame();
+});
+
+scissors.addEventListener("click", () => {
+    playRound("scissors", getComputerChoice())
+    playGame();
+});
+
 
 
 // declares who the winner is
 function playRound(humanChoice, computerChoice) {
-    if (humanChoice.toLowerCase() === computerChoice) {
-        return console.log("you tie");
+    if (humanChoice == computerChoice) {
+        const tieChoice = document.createElement("tiechoice");
+        tieChoice.textContent = "Tie this round "; 
+        div.appendChild(lineBreak);
+        div.appendChild(tieChoice);
     } else if (
-        (humanChoice.toLowerCase() == "rock" && computerChoice == "scissors") ||
-        (humanChoice.toLowerCase() == "paper" && computerChoice == "rock") ||
-        (humanChoice.toLowerCase() == "scissors" && computerChoice == "paper")
-    ) {
-        console.log("you win");
-        return console.log("Your score is " + ++humanScore);
+        (humanChoice == "rock" && computerChoice == "scissors") ||
+        (humanChoice == "paper" && computerChoice == "rock") ||
+        (humanChoice == "scissors" && computerChoice == "paper")
+    ) { const userScore = document.createElement("userscore");
+        userScore.textContent = "Your score is " + ++humanScore;
+        div.appendChild(lineBreak);
+        div.appendChild(userScore);
     } else if (
-        (computerChoice == "rock" && humanChoice.toLowerCase() == "scissors") ||
-        (computerChoice == "paper" && humanChoice.toLowerCase() == "rock") ||
-        (computerChoice == "scissors" && humanChoice.toLowerCase() == "paper")
+        (computerChoice == "rock" && humanChoice== "scissors") ||
+        (computerChoice == "paper" && humanChoice== "rock") ||
+        (computerChoice == "scissors" && humanChoice== "paper")
     ) {
-        console.log("you lose");
-        return console.log("The computers score is " + ++computerScore);
+        const cpu = document.createElement("cpu");
+        cpu.textContent = "Computer score is " + ++computerScore;
+        div.appendChild(lineBreak);
+        div.appendChild(cpu);
     }
     }
 
 // runs game to see who wins round by round
-function playGame() {
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
-    playRound(getHumanChoice(), getComputerChoice());
+function playGame() {   
 
-    if (humanScore > computerScore) {
-        console.log("You win! Congratulations");
-    } else if ( computerScore > humanScore) {
-        console.log("You lose LOSER!");
-    } else {
-        console.log("Tie! No winner");
+    if (humanScore == 5) {
+        const user = document.createElement("user");
+        user.textContent = "You Won! Congratulations";
+        div.appendChild(user);
+    } else if ( computerScore == 5) {
+        const computer = document.createElement("computer")
+        computer.textContent = "YOU LOSE LOSER!!";
+        div.appendChild(computer);
+    } else if (humanScore == 5 && computerScore == 5) {
+        const tie = document.createElement("tie");
+        tie.textContent = "TIE GAME! NOBODY WINS"
+        div.appendChild(tie);
     }
 }
 
